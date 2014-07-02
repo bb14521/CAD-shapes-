@@ -1,5 +1,7 @@
-#!/bin/bash
+#!/bin/bash\
 
+echo Content-type: text/html 
+echo 
 # removing old files.
 rm -f join.g
 rm -f rt*
@@ -21,8 +23,14 @@ ae 25 35
 saveview $rt
 EOF
 
+sed '2cenv /usr/brlcad/bin/rt -M \\' $rt > tempFile1
+
+rm $rt
+
+mv tempFile1 $rt
+
 # give executable permissions to raytrace file.
-chmod 755 $rt
+chmod 777 $rt
 
 # executing raytrace file. This will produce raw image in .pix format
 # and a log
@@ -35,4 +43,4 @@ pix-png < $rt.pix > $rt.png
 # open png image in a frame buffer. Currently not required.
 #env /usr/brlcad/bin/png-fb $rt.png
 
-shotwell $rt.png
+echo "<html><head></head><body><img src=\"rtFile.png\"></body></html>"
